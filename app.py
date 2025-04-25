@@ -23,7 +23,7 @@ if not os.path.exists(MODEL_PATH):
 
 
 # Load the model with custom attention layer
-model = load_model(MODEL_PATH, custom_objects={'BahdanauAttention': BahdanauAttention})
+model = load_model(MODEL_PATH, custom_objects={'BahdanauAttention': BahdanauAttention}, compile=False)
 
 
 # Load tokenizers
