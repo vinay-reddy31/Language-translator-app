@@ -6,11 +6,25 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import custom_object_scope
 from bahdanau_attention import BahdanauAttention
+import os
+import gdown
 
 app = Flask(__name__)
 
+
+MODEL_PATH = "translation_model.h5"
+MODEL_DRIVE_ID = "1HGAhF4PYPrQdhGMGJMn5do6fHT37QJAI"
+
+# Download model from Google Drive if it doesn't exist
+if not os.path.exists(MODEL_PATH):
+    print("Model not found, downloading from Google Drive...")
+    gdown.download(f"https://drive.google.com/uc?id={MODEL_DRIVE_ID}", MODEL_PATH, quiet=False)
+    print("Download completed.")
+
+
 # Load the model with custom attention layer
-model = load_model("translation_model.h5", custom_objects={'BahdanauAttention': BahdanauAttention})
+model = load_model(MODEL_PATH, custom_objects={'BahdanauAttention': BahdanauAttention})
+
 
 # Load tokenizers
 with open('tokenizer_eng.pkl', 'rb') as f:
